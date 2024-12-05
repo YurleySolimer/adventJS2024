@@ -31,20 +31,18 @@ organizeInventory(inventory)
  */
 
 function organizeInventory(inventory) {
-  let finalInventory = {};
-  if (inventory && Array.isArray(inventory)&& Array.length) {
-    inventory.map(gift => {
+  const finalInventory = {};
+
+  if (Array.isArray(inventory) && inventory.length > 0) {
+    for (const gift of inventory) {
       const { name, quantity, category } = gift;
-      if (!finalInventory[category]) {
+
+      if (!finalInventory.hasOwnProperty(category)) {
         finalInventory[category] = {};
       }
 
-      if (!finalInventory[category][name]) {
-        finalInventory[category][name] = 0;
-      }
-
-      finalInventory[category][name] += quantity;
-    });
+      finalInventory[category][name] = (finalInventory[category][name] || 0) + quantity;
+    }
   }
 
   return finalInventory;
