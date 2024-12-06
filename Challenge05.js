@@ -18,25 +18,19 @@ function organizeShoes(shoes) {
     }
 
     const counts = {};
-    shoes.forEach(shoe => {
-        const { type, size } = shoe;
-        
-        if (!counts[size]) {
-          counts[size] = { I: 0, R: 0 };
-        }
+    shoes.forEach(({ type, size }) => {
+        counts[size] = counts[size] || { I: 0, R: 0 };
         counts[size][type]++;
-    });
-
+      });
+      
     const pairedSizes = [];
 
-    Object.keys(counts).forEach(size => {
-      const { I, R } = counts[size];
-      const pairs = Math.min(I, R);
-
-      for (let i = 0; i < pairs; i++) {
-        pairedSizes.push(parseInt(size));
-      }
-    });
+    for (const size of Object.keys(counts)) {
+        const { I, R } = counts[size];
+        const pairs = Math.min(I, R);
+      
+        pairedSizes.push(...Array(pairs).fill(Number(size)));
+    }      
 
     return pairedSizes;
 }
